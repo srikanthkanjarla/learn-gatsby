@@ -1,5 +1,5 @@
 import React from 'react';
-import {graphql} from 'gatsby';
+import {Link,graphql} from 'gatsby';
 import {css} from '@emotion/core';
 import {rhythm} from '../utils/typography';
 import BlogLayout from '../components/blogLayout';
@@ -13,7 +13,10 @@ const Blog = (props) =>{
             `}>Amazing Pandas Eating Things</h1>
             <h4>{props.data.allMarkdownRemark.totalCount} pages</h4>
             {props.data.allMarkdownRemark.edges.map(({node})=>(
-                   <div key={node.id}>                       
+                   <div key={node.id}>
+                       <Link to={node.fields.slug} css={css`
+                       text-decoration:none;
+                       color:inherit;`}>                       
                         <h3 css={css`
                             margin-bottom:${rhythm(1/4)};
                         `}>
@@ -23,6 +26,7 @@ const Blog = (props) =>{
                             </span>
                         </h3> 
                        <p>{node.excerpt}</p> 
+                       </Link>
                    </div> 
                 ))
             }
@@ -45,6 +49,9 @@ query{
                     frontmatter{
                         title
                         date(formatString:"DD MMMM YYYY")
+                    }
+                    fields{
+                        slug
                     }
                     excerpt
                 }
